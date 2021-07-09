@@ -11,6 +11,7 @@ def load_data():
     rki_covid19 = pd.read_csv(path_covid, index_col=0)
     rki_covid19['Meldedatum'] = pd.to_datetime(rki_covid19['Meldedatum'])
 
+
     rki_counties = pd.read_csv(path_counties, index_col=0)
     rki_counties = rki_counties.rename(columns={'RS': 'IdLandkreis'})
 
