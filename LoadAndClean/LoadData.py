@@ -86,3 +86,12 @@ def data_by_county(data):
     """
 
     return data[["County", "CaseCount", "DeathcaseCount", "Population"]]
+
+
+def counties(data):
+    """
+    Get all counties
+    :return: a numpy array of all counties
+    """
+
+    return data["County"].unique()
