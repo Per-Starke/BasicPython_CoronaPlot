@@ -39,10 +39,15 @@ def compute_incidence(data):
     :param data: the dataframe to work with
     :return: a dataframe with the incidence values for each day
     """
+    german_population = 82020000 #82,02 Million
+    hundredk_incidence_constant = 100000 #100k is the constant for incidences
+    incidence_factor = german_population/hundredk_incidence_constant
 
     data = data.resample('1d').sum()
     data = data.rolling(7).sum()
     data = data.shift(1, freq='d')
+    data = data['CaseCount'].div(incidence_factor).round(0)
+    data = data.dropna()
 
     return data
 
@@ -120,5 +125,5 @@ def calc_incidence_county(data):
     return tuple(return_data)
 
 
-df = load_data()
-print(calc_incidence_county(df))
+# df = load_data()
+# print(calc_incidence_county(df))
