@@ -47,7 +47,7 @@ def compute_incidence(data):
     data = data.rolling(7).sum()
     data = data.shift(1, freq='d')
     data = data['CaseCount'].div(incidence_factor).round(0)
-    data = data.dropna()
+    #data = data.dropna()
 
     return data
 
@@ -87,7 +87,7 @@ def calc_incidence_agegroup(data):
     Calculates the 7-day incidence values, grouped by age group, for cases and deaths
     :param data: the dataframe to work on - should be the one returned by load_data
     :return: 7 dataframes with the incidence values for each day, one for each age group
-    0-4, 5-14, 15-34, 35-59, 60-79, 80+ and unkown
+    0-4, 5-14, 15-34, 35-59, 60-79, 80+ and unknown
     """
 
     data = data.drop(columns=["County", "Sex", "Population"])
