@@ -41,10 +41,15 @@ def compute_cumsum(data):
     :param data: the dataframe to work with
     :return: a dataframe with the 7 day window values for each day
     """
+    german_population = 82020000 #82,02 Million
+    hundredk_incidence_constant = 100000 #100k is the constant for incidences
+    incidence_factor = german_population/hundredk_incidence_constant
 
     data = data.resample('1d').sum()
     data = data.cumsum()
     data = data.shift(1, freq='d')
+    data = data['CaseCount'].div(incidence_factor).round(0)
+    data = data.dropna()
 
     return data
 
@@ -140,6 +145,6 @@ def calc_incidence_county(data):
     return 0, 0
 
 
-da_fr = load_data()
-m, f, u = calc_incidence_sex(da_fr)
-print(m.head(100))
+# df = load_data()
+# print(calc_incidence_county(df))
+# print(calc_incidence_county(df))
