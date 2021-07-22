@@ -25,7 +25,8 @@ def load_data():
     # Read the corona data
     rki_covid19 = pd.read_csv(path_covid, index_col=0)
 
-    # Use pandas datetime object for the "Meldedatum"
+    # Use pandas datetime object for the "ReportDate"
+    # And remove the clocktime
     rki_covid19['Meldedatum'] = pd.to_datetime(rki_covid19['Meldedatum'])
 
     # Read the counties data
@@ -38,14 +39,19 @@ def load_data():
     # left-join the corona data and the counties (Will be joined on the IdLandkreis column)
     data = rki_covid19.merge(rki_counties, how='left')
 
+    # Rename index column to english
+    # (since its the index from the next step on this has to be done here)
+    data.rename(columns={'Meldedatum': 'ReportDate'}, inplace=True)
+
     # Use the Meldedatum as index and sort by this
-    data = data.set_index(data['Meldedatum'])
+    data = data.set_index(data['ReportDate'])
     data = data.sort_index()
 
     # Drop all columns that are not interesting for us
+    # plus the double ReportDate column left over from setting it as index
     data = data.drop(columns=['IdBundesland', 'Bundesland', 'Datenstand', 'NeuerFall', 'NeuerTodesfall',
                               'Refdatum', 'AnzahlGenesen', 'IstErkrankungsbeginn',
-                              'IdLandkreis', 'NeuGenesen', 'Altersgruppe2', 'Meldedatum'])
+                              'IdLandkreis', 'NeuGenesen', 'Altersgruppe2', 'ReportDate'])
 
     # Rename columns to english
     data.rename(columns={"Landkreis": "County", "Altersgruppe": "AgeGroup", "Geschlecht": "Sex",
