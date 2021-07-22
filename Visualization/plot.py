@@ -15,6 +15,11 @@ def plot_incidence_time():
     df_incidence_total = calc_incidence_total(df)
 
     print(df_incidence_total)
+    reportDates = df_incidence_total.index
+    x_days = pd.DataFrame(reportDates, columns=['ReportDate'])
+    x_days['ReportDate'] = x_days['ReportDate'].dt.date
+    #y_incidence = df_incidence_total[:, 0]
+    #inc_time_plot = plt.bar(x_days, y_incidence)
     inc_time_plot = df_incidence_total.plot.bar()
     n = 14  # Keeps every Nth label to not overcrowd the x axis
     [l.set_visible(False) for (i, l) in enumerate(inc_time_plot.axes.xaxis.get_ticklabels()) if i % n != 0]
@@ -33,8 +38,7 @@ def plot_incidence_var():
 
 # stacked bars to put death count into the plots
 
-#plot_incidence_time()
-plot_incidence_var()
+plot_incidence_time()
+#plot_incidence_var()
 
 plt.show()
-
