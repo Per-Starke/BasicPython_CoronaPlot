@@ -33,6 +33,23 @@ def calc_cases_county(data):
     return data_by_county(data).groupby("County").sum().drop(columns=["Population"])
 
 
+def standardize_df_length(data, return_data):
+    """
+    Helper-function to standardize the length of all dataframes in return_data.
+    Reindexes the dataframes so that all dates occur exactly once.
+    :param data: the dataframe returned by load_data (probably with some dropped columns)
+    :param return_data: the data that should be standardized in it's length - a list of dataframes
+    :return: the standardized data as a list of dataframes
+    """
+
+    # Fill missing dates, so that all dataframes have the same length:
+    all_dates = pd.date_range(start=data.index.min(), end=data.index.max())
+    for i in range(len(return_data)):
+        return_data[i] = return_data[i].reindex(all_dates).fillna(0)
+
+    return return_data
+
+
 def compute_incidence(data, incidence_factor):
     """
     Helper-function
@@ -69,6 +86,7 @@ def calc_incidence_total(data):
     :return: a dataframe with the incidence values for each day
     """
 
+    # calculate population and then compute incidence
     population = 0
     for county in county_population(data).iterrows():
         population += county[1]["Population"]
@@ -99,6 +117,8 @@ def calc_incidence_sex(data):
     return_data = [compute_incidence(data_male, 41040000/100000),
                    compute_incidence(data_female, 42000000/100000),
                    compute_incidence(data_unknown, len(data_unknown)*7/100000)]
+
+    return_data = standardize_df_length(data, return_data)
 
     return tuple(return_data)
 
@@ -135,6 +155,8 @@ def calc_incidence_agegroup(data):
         elif i == 6:
             return_data[i] = compute_incidence(return_data[i], 10000000 / 100000)
 
+    return_data = standardize_df_length(data, return_data)
+
     return tuple(return_data)
 
 
@@ -145,16 +167,29 @@ def calc_incidence_county(data):
     :return: dataframes with the incidence values for each day, one for each county
     """
 
+    county_population_list = county_population(data).set_index(keys=["County"])
+
     data = data.drop(columns=["AgeGroup", "Sex", "Population"])
 
-    cumsum_data = []
+    return_data = []
 
     county_list = counties(data)
 
+    # Add all counties to the return_data
     for county in county_list:
-        cumsum_data.append(data[data['County'] == county])
+        return_data.append(data[data['County'] == county])
 
-    for i in range(0, len(cumsum_data)):
-        cumsum_data[i] = compute_incidence(cumsum_data[i])
+    # For each county, get the populationa and then compute incidence
+    for i in range(0, len(return_data)):
+        county = county_list[i]
+        pop = county_population_list.loc[county]["Population"]
+        return_data[i] = compute_incidence(return_data[i], pop/100000)
 
-    return 0, 0
+    return_data = standardize_df_length(data, return_data)
+
+    return tuple(return_data)
+
+
+df = load_data()
+print(calc_incidence_county(df))
+
