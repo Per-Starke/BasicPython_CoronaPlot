@@ -188,8 +188,3 @@ def calc_incidence_county(data):
     return_data = standardize_df_length(data, return_data)
 
     return tuple(return_data)
-
-
-df = load_data()
-print(calc_incidence_county(df))
-
