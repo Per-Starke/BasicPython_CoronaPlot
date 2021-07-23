@@ -67,6 +67,6 @@ def plot_incidence_var():
 # stacked bars to put death count into the plots
 
 plot_incidence_total()
-plot_incidence_var()
+#plot_incidence_var()
 
 plt.show()

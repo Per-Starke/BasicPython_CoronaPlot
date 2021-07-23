@@ -101,3 +101,15 @@ def counties(data):
     """
 
     return data["County"].unique()
+
+
+def county_population(data):
+    """
+        Get all counties and their population
+        :return: a dataframe of all counties and the population
+        """
+
+    data = data.drop_duplicates(subset=["County"])
+    data = data.reset_index()
+
+    return data[["County", "Population"]]

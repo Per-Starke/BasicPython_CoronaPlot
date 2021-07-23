@@ -33,25 +33,33 @@ def calc_cases_county(data):
     return data_by_county(data).groupby("County").sum().drop(columns=["Population"])
 
 
-def compute_cumsum(data):
+def compute_incidence(data, incidence_factor):
     """
     Helper-function
     Sum over all values submitted in one day, then compute 7-day window
     then shift right by 1, because the values from one day are calculated by the 7 days before!
+    :param incidence_factor: which incidence factor to divide through
     :param data: the dataframe to work with
     :return: a dataframe with the 7 day window values for each day
     """
-    german_population = 82020000 #82,02 Million
-    hundredk_incidence_constant = 100000 #100k is the constant for incidences
-    incidence_factor = german_population/hundredk_incidence_constant
 
     data = data.resample('1d').sum()
     data = data.cumsum()
     data = data.shift(1, freq='d')
-    data = data['CaseCount'].div(incidence_factor).round(0)
-    #data = data.dropna()
+    data = data.div(incidence_factor).round(0)
 
-    return data
+    return_data = deepcopy(data)
+
+    # Subtract the values of the 7-day-window before this one, for each day respectively
+    for i in range(len(data)):
+        if i == 0:
+            return_data.iloc[i]["CaseCount"] = 0
+            return_data.iloc[i]["DeathcaseCount"] = 0
+        else:
+            return_data.iloc[i]["CaseCount"] = data.iloc[i]["CaseCount"] - data.iloc[i-1]["CaseCount"]
+            return_data.iloc[i]["DeathcaseCount"] = data.iloc[i]["DeathcaseCount"] - data.iloc[i - 1]["DeathcaseCount"]
+
+    return return_data
 
 
 def calc_incidence_total(data):
@@ -61,9 +69,15 @@ def calc_incidence_total(data):
     :return: a dataframe with the incidence values for each day
     """
 
+    population = 0
+    for county in county_population(data).iterrows():
+        population += county[1]["Population"]
+
+    incidence_factor = population / 100000
+
     data = data.drop(columns=["County", "AgeGroup", "Sex", "Population"])
 
-    data = compute_cumsum(data)
+    data = compute_incidence(data, incidence_factor)
 
     return data
 
@@ -81,23 +95,10 @@ def calc_incidence_sex(data):
     data_female = data[data['Sex'] == "W"]
     data_unknown = data[data['Sex'] == "unknown"]
 
-    cumsum_data = [compute_cumsum(data_male),
-                   compute_cumsum(data_female),
-                   compute_cumsum(data_unknown)]
-
-    # Calculate incidence - each day is the cumsum of this day minus the cumsum of the day before
-    return_data = deepcopy(cumsum_data)
-    for i in range(len(cumsum_data)):
-        for j in range(len(cumsum_data[i])):
-            if j > 0:
-                return_data[i].iloc[j] = cumsum_data[i].iloc[j] - cumsum_data[i].iloc[j-1]
-            else:
-                return_data[i].iloc[j] = 0
-
-    # Normalize: Incidence per gender and per 100.000, then round
-    return_data[0] = (return_data[0] / len(data_male) * 100000).round()
-    return_data[1] = (return_data[1] / len(data_female) * 100000).round()
-    return_data[2] = (return_data[2] / len(data_unknown) * 100000).round()
+    # We can not get the amount of males/females/unknowns from the given data, so we use standard constants here!
+    return_data = [compute_incidence(data_male, 41040000/100000),
+                   compute_incidence(data_female, 42000000/100000),
+                   compute_incidence(data_unknown, len(data_unknown)*7/100000)]
 
     return tuple(return_data)
 
@@ -112,15 +113,29 @@ def calc_incidence_agegroup(data):
 
     data = data.drop(columns=["County", "Sex", "Population"])
 
-    cumsum_data = [data[data['AgeGroup'] == "A00-A04"], data[data['AgeGroup'] == "A05-A14"],
+    return_data = [data[data['AgeGroup'] == "A00-A04"], data[data['AgeGroup'] == "A05-A14"],
                    data[data['AgeGroup'] == "A15-A34"], data[data['AgeGroup'] == "A35-A59"],
                    data[data['AgeGroup'] == "A60-A79"], data[data['AgeGroup'] == "A80+"],
                    data[data['AgeGroup'] == "unknown"]]
 
-    for i in range(len(cumsum_data)):
-        cumsum_data[i] = compute_cumsum(cumsum_data[i])
+    # We can not get the amount of people per agegroup from the given data, so we use standard constants here!
+    for i in range(len(return_data)):
+        if i == 0:
+            return_data[i] = compute_incidence(return_data[i], 3157537/100000)
+        elif i == 1:
+            return_data[i] = compute_incidence(return_data[i], 6760000 / 100000)
+        elif i == 2:
+            return_data[i] = compute_incidence(return_data[i], 18200000 / 100000)
+        elif i == 3:
+            return_data[i] = compute_incidence(return_data[i], 27340000 / 100000)
+        elif i == 4:
+            return_data[i] = compute_incidence(return_data[i], 8000000 / 100000)
+        elif i == 5:
+            return_data[i] = compute_incidence(return_data[i], 5915000 / 100000)
+        elif i == 6:
+            return_data[i] = compute_incidence(return_data[i], 10000000 / 100000)
 
-    return 0, 0
+    return tuple(return_data)
 
 
 def calc_incidence_county(data):
@@ -140,11 +155,6 @@ def calc_incidence_county(data):
         cumsum_data.append(data[data['County'] == county])
 
     for i in range(0, len(cumsum_data)):
-        cumsum_data[i] = compute_cumsum(cumsum_data[i])
+        cumsum_data[i] = compute_incidence(cumsum_data[i])
 
     return 0, 0
-
-
-# df = load_data()
-# print(calc_incidence_county(df))
-# print(calc_incidence_county(df))
