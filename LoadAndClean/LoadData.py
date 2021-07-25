@@ -49,12 +49,12 @@ def load_data():
 
     # Drop all columns that are not interesting for us
     # plus the double ReportDate column left over from setting it as index
-    data = data.drop(columns=['IdBundesland', 'Bundesland', 'Datenstand', 'NeuerFall', 'NeuerTodesfall',
+    data = data.drop(columns=['IdBundesland', 'Landkreis', 'Datenstand', 'NeuerFall', 'NeuerTodesfall',
                               'Refdatum', 'AnzahlGenesen', 'IstErkrankungsbeginn',
                               'IdLandkreis', 'NeuGenesen', 'Altersgruppe2', 'ReportDate'])
 
     # Rename columns to english
-    data.rename(columns={"Landkreis": "County", "Altersgruppe": "AgeGroup", "Geschlecht": "Sex",
+    data.rename(columns={"Bundesland": "County", "Altersgruppe": "AgeGroup", "Geschlecht": "Sex",
                          "AnzahlFall": "CaseCount", "AnzahlTodesfall": "DeathcaseCount", "EWZ": "Population"},
                 inplace=True)
 

@@ -12,7 +12,6 @@ def calc_cases_sex(data):
 
     return data_by_sex(data).groupby("Sex").sum()
 
-
 def calc_cases_agegroup(data):
     """
     Calculate the total of all cases and deaths, by age group
@@ -179,7 +178,7 @@ def calc_incidence_county(data):
     for county in county_list:
         return_data.append(data[data['County'] == county])
 
-    # For each county, get the populationa and then compute incidence
+    # For each county, get the population and then compute incidence
     for i in range(0, len(return_data)):
         county = county_list[i]
         pop = county_population_list.loc[county]["Population"]
@@ -188,3 +187,7 @@ def calc_incidence_county(data):
     return_data = standardize_df_length(data, return_data)
 
     return tuple(return_data)
+
+
+# df = load_data()
+# print(calc_incidence_county(df))
