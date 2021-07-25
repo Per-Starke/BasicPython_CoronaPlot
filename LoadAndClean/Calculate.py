@@ -166,7 +166,7 @@ def calc_incidence_county(data):
     :return: dataframes with the incidence values for each day, one for each county
     """
 
-    county_population_list = county_population(data).set_index(keys=["County"])
+    county_population_list = county_population(data)
 
     data = data.drop(columns=["AgeGroup", "Sex", "Population"])
 
@@ -182,6 +182,8 @@ def calc_incidence_county(data):
     for i in range(0, len(return_data)):
         county = county_list[i]
         pop = county_population_list.loc[county]["Population"]
+        print(county)
+        print(pop)
         return_data[i] = compute_incidence(return_data[i], pop/100000)
 
     return_data = standardize_df_length(data, return_data)
@@ -190,4 +192,4 @@ def calc_incidence_county(data):
 
 
 # df = load_data()
-# print(calc_incidence_county(df))
+# calc_incidence_county(df)

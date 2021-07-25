@@ -109,7 +109,24 @@ def county_population(data):
         :return: a dataframe of all counties and the population
         """
 
-    data = data.drop_duplicates(subset=["County"])
-    data = data.reset_index()
+    path = sys.path[1]
+    path_counties = path + "/data/RKI_Corona_Landkreise.csv"
+    county_list = pd.read_csv(path_counties, index_col=0)
 
-    return data[["County", "Population"]]
+    states = counties(data)
+
+    # data = data.drop_duplicates(subset=["County"])
+    data = data.reset_index()
+    data = data[["County", "Population"]]
+
+    pop_sum_list = []
+
+    # Calculate state population by adding population of all counties in that state
+    for state in states:
+        pop_sum = 0
+        all_entries_for_state = county_list.loc[county_list["BL"] == state]
+        for entry in all_entries_for_state["EWZ"]:
+            pop_sum += entry
+        pop_sum_list.append(pop_sum)
+
+    return pd.DataFrame(data=pop_sum_list, index=states, columns=["Population"])
