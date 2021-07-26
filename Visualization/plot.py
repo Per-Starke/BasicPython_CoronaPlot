@@ -13,18 +13,20 @@ def plot_incidence_total():
     for the date range 02.01.2020 - 07.07.2021
     """
     df_inc_total = calc_incidence_total(df)
-    print(df_inc_total)
     totalfig = plt.figure()
     ax = totalfig.add_subplot(111)
     totalfig.suptitle('7-Day Corona Incidence Total')
-    ax.bar(df_inc_total.index, df_inc_total.loc[:, 'CaseCount'], color='g')
+    barwidth = 0.8
+    ax.bar(df_inc_total.index, df_inc_total.loc[:, 'CaseCount'], color='green')
+    ax.bar(df_inc_total.index, df_inc_total.loc[:, 'DeathcaseCount'], color='black')
     ax.set(xlabel='Day', ylabel='7-Day Incidence')
+
 
 
 def plot_incidence_var_age():
     """
-    Generates a bar-plot of the 7-day incidence values depending on the variables
-    1. Age Group, 2. Sex, 3. County, 4. Comparison of 1-3
+    Generates a bar-plot of the 7-day incidence values depending on the variable
+    Age.
     """
     # Preparatory Information
     ageGroupLabels = ['Age 0-4', 'Age 5-14', 'Age 15-34', 'Age 35-59', 'Age 60-79', 'Age 80+']
@@ -58,28 +60,49 @@ def plot_incidence_var_age():
 
 def plot_incidence_var_sex():
     """
-    Generates a bar-plot of the 7-day incidence values depending on the variables
-    1. Age Group, 2. Sex, 3. County, 4. Comparison of 1-3
+    Generates a bar-plot of the 7-day incidence values depending on the variable
+    Sex.
     """
     # Preparatory Information
-    sexGroupLabels = ['male', 'female', 'unknown']
+    sexGroupLabels = ['male', 'female', 'unknown gender']
     df_inc_sex = calc_incidence_sex(df)  # saves all
     sexfig = plt.figure()
     ax = sexfig.add_subplot(111)
     sexfig.suptitle('7-Day Corona Incidence per Sex')
-    ax.bar(df_inc_sex[0].index, df_inc_sex[0].loc[:, 'CaseCount'], color='blue', label=sexGroupLabels[0])
-    ax.bar(df_inc_sex[1].index, df_inc_sex[1].loc[:, 'CaseCount'], color='red', label=sexGroupLabels[1],
-           bottom=df_inc_sex[0].loc[:, 'CaseCount'])
-    ax.bar(df_inc_sex[2].index, df_inc_sex[2].loc[:, 'CaseCount'], color='orange', label=sexGroupLabels[2],
-           bottom=sum([df_inc_sex[0].loc[:, 'CaseCount'],
-                       df_inc_sex[1].loc[:, 'CaseCount']]))
+    barwidth = 0.3
+    # Incidence Bar Male
+    ax.bar(df_inc_sex[0].index, df_inc_sex[0].loc[:, 'CaseCount'], color='cyan', label=sexGroupLabels[0],
+           width=-1.5*barwidth, align='edge')
+    # Death Bar Male
+    ax.bar(df_inc_sex[0].index, df_inc_sex[0].loc[:, 'DeathcaseCount'], color='blue', label='male deaths',
+           width=-1.5 * barwidth, align='edge')
+    # Incidence Bar Female
+    ax.bar(df_inc_sex[1].index, df_inc_sex[1].loc[:, 'CaseCount'], color='tomato', label=sexGroupLabels[1],
+           # bottom=df_inc_sex[0].loc[:, 'CaseCount']
+           width=1.5*barwidth, align='edge')
+    # Death Bar Female
+    ax.bar(df_inc_sex[1].index, df_inc_sex[1].loc[:, 'DeathcaseCount'], color='red', label='female deaths',
+           # bottom=df_inc_sex[0].loc[:, 'CaseCount']
+           width=1.5 * barwidth, align='edge')
+    # Incidence Bar Unknown
+    ax.bar(df_inc_sex[2].index, df_inc_sex[2].loc[:, 'CaseCount'], color='lime', label=sexGroupLabels[2],
+           #bottom=sum([df_inc_sex[0].loc[:, 'CaseCount'],
+           #            df_inc_sex[1].loc[:, 'CaseCount']])
+           width=barwidth, align='center')
+    # Death Bar Unknown
+    ax.bar(df_inc_sex[2].index, df_inc_sex[2].loc[:, 'DeathcaseCount'], color='green', label='unknown gender deaths',
+           # bottom=sum([df_inc_sex[0].loc[:, 'CaseCount'],
+           #            df_inc_sex[1].loc[:, 'CaseCount']])
+           width=barwidth, align='center')
+
+    ax.set(xlabel='Day', ylabel='7-Day Incidence / Death Count')
     ax.legend()
 
 
 def plot_incidence_var_state():
     """
-    Generates a bar-plot of the 7-day incidence values depending on the variables
-    1. Age Group, 2. Sex, 3. County, 4. Comparison of 1-3
+    Generates a bar-plot of the 7-day incidence values depending on the variable
+    State.
     """
     # Preparatory Information
     state_group_labels = states(df)
@@ -253,10 +276,11 @@ def plot_incidence_var_state():
                        df_inc_state[13].loc[:, 'CaseCount'],
                        df_inc_state[14].loc[:, 'CaseCount']])
            )
+    ax.set(xlabel='Day', ylabel='7-Day Incidence')
     ax.legend()
 
 # plot_incidence_total()
 # plot_incidence_var_age()
-# plot_incidence_var_sex()
+plot_incidence_var_sex()
 # plot_incidence_var_state()
-# plt.show()
+plt.show()
