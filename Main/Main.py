@@ -1,4 +1,4 @@
-from Visualization.plot import *
+from visualization.plot import *
 
 val = input("What plot do you want to see? Type in the corresponding number and hit return, then wait "
             "until the plot shows up!\n"

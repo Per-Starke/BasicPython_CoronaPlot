@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-from LoadAndClean.Calculate import *
 
+from loadAndClean.Calculate import *
+from loadAndClean.LoadData import load_data
 
 # Import the data via the load_data() function
 df = load_data()
+
 
 def plot_incidence_total():
     """
@@ -281,6 +283,6 @@ def plot_incidence_var_state():
 
 # plot_incidence_total()
 # plot_incidence_var_age()
-plot_incidence_var_sex()
+# plot_incidence_var_sex()
 # plot_incidence_var_state()
-plt.show()
+# splt.show()
