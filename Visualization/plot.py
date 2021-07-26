@@ -1,11 +1,12 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-from loadAndClean.LoadData import *
 from loadAndClean.Calculate import *
+
 
 # Import the data via the load_data() function
 df = load_data()
+
 
 def plot_incidence_total():
     """
@@ -19,6 +20,7 @@ def plot_incidence_total():
     totalfig.suptitle('7-Day Corona Incidence Total')
     ax.bar(df_inc_total.index, df_inc_total.loc[:, 'CaseCount'], color='g')
     ax.set(xlabel='Day', ylabel='7-Day Incidence')
+
 
 def plot_incidence_var_age():
     """
@@ -54,6 +56,7 @@ def plot_incidence_var_age():
                        df_inc_age[4].loc[:, 'CaseCount']]))
     ax.legend()
 
+
 def plot_incidence_var_sex():
     """
     Generates a bar-plot of the 7-day incidence values depending on the variables
@@ -73,185 +76,186 @@ def plot_incidence_var_sex():
                        df_inc_sex[1].loc[:, 'CaseCount']]))
     ax.legend()
 
-def plot_incidence_var_county():
+
+def plot_incidence_var_state():
     """
     Generates a bar-plot of the 7-day incidence values depending on the variables
     1. Age Group, 2. Sex, 3. County, 4. Comparison of 1-3
     """
     # Preparatory Information
-    countyGroupLabels = counties(df)
-    df_inc_county = calc_incidence_county(df)  # saves all
-    print(len(df_inc_county))
-    print(len(countyGroupLabels))
-    print(countyGroupLabels)
-    countyfig = plt.figure()
-    ax = countyfig.add_subplot(111)
-    countyfig.suptitle('7-Day Corona Incidence per Age-Group')
-    ax.bar(df_inc_county[0].index, df_inc_county[0].loc[:, 'CaseCount'],
-           color='black', label=countyGroupLabels[0])
-    ax.bar(df_inc_county[1].index, df_inc_county[1].loc[:, 'CaseCount'],
-           color='grey', label=countyGroupLabels[1],
-           bottom=df_inc_county[0].loc[:, 'CaseCount'])
-    ax.bar(df_inc_county[2].index, df_inc_county[2].loc[:, 'CaseCount'],
-           color='red', label=countyGroupLabels[2],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount']])
+    state_group_labels = states(df)
+    df_inc_state = calc_incidence_state(df)  # saves all
+    print(len(df_inc_state))
+    print(len(state_group_labels))
+    print(state_group_labels)
+    statefig = plt.figure()
+    ax = statefig.add_subplot(111)
+    statefig.suptitle('7-Day Corona Incidence per Age-Group')
+    ax.bar(df_inc_state[0].index, df_inc_state[0].loc[:, 'CaseCount'],
+           color='black', label=state_group_labels[0])
+    ax.bar(df_inc_state[1].index, df_inc_state[1].loc[:, 'CaseCount'],
+           color='grey', label=state_group_labels[1],
+           bottom=df_inc_state[0].loc[:, 'CaseCount'])
+    ax.bar(df_inc_state[2].index, df_inc_state[2].loc[:, 'CaseCount'],
+           color='red', label=state_group_labels[2],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[3].index, df_inc_county[3].loc[:, 'CaseCount'],
-           color='chocolate', label=countyGroupLabels[3],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[3].index, df_inc_state[3].loc[:, 'CaseCount'],
+           color='chocolate', label=state_group_labels[3],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[4].index, df_inc_county[4].loc[:, 'CaseCount'],
-           color='orange', label=countyGroupLabels[4],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[4].index, df_inc_state[4].loc[:, 'CaseCount'],
+           color='orange', label=state_group_labels[4],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[5].index, df_inc_county[5].loc[:, 'CaseCount'],
-           color='yellow', label=countyGroupLabels[5],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[5].index, df_inc_state[5].loc[:, 'CaseCount'],
+           color='yellow', label=state_group_labels[5],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[6].index, df_inc_county[6].loc[:, 'CaseCount'],
-           color='greenyellow', label=countyGroupLabels[6],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[6].index, df_inc_state[6].loc[:, 'CaseCount'],
+           color='greenyellow', label=state_group_labels[6],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[7].index, df_inc_county[7].loc[:, 'CaseCount'],
-           color='lime', label=countyGroupLabels[7],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[7].index, df_inc_state[7].loc[:, 'CaseCount'],
+           color='lime', label=state_group_labels[7],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[8].index, df_inc_county[8].loc[:, 'CaseCount'],
-           color='aquamarine', label=countyGroupLabels[8],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[8].index, df_inc_state[8].loc[:, 'CaseCount'],
+           color='aquamarine', label=state_group_labels[8],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[9].index, df_inc_county[9].loc[:, 'CaseCount'],
-           color='cyan', label=countyGroupLabels[9],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount'],
-                       df_inc_county[8].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[9].index, df_inc_state[9].loc[:, 'CaseCount'],
+           color='cyan', label=state_group_labels[9],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount'],
+                       df_inc_state[8].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[10].index, df_inc_county[10].loc[:, 'CaseCount'],
-           color='skyblue', label=countyGroupLabels[10],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount'],
-                       df_inc_county[8].loc[:, 'CaseCount'],
-                       df_inc_county[9].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[10].index, df_inc_state[10].loc[:, 'CaseCount'],
+           color='skyblue', label=state_group_labels[10],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount'],
+                       df_inc_state[8].loc[:, 'CaseCount'],
+                       df_inc_state[9].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[11].index, df_inc_county[11].loc[:, 'CaseCount'],
-           color='dodgerblue', label=countyGroupLabels[11],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount'],
-                       df_inc_county[8].loc[:, 'CaseCount'],
-                       df_inc_county[9].loc[:, 'CaseCount'],
-                       df_inc_county[10].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[11].index, df_inc_state[11].loc[:, 'CaseCount'],
+           color='dodgerblue', label=state_group_labels[11],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount'],
+                       df_inc_state[8].loc[:, 'CaseCount'],
+                       df_inc_state[9].loc[:, 'CaseCount'],
+                       df_inc_state[10].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[12].index, df_inc_county[12].loc[:, 'CaseCount'],
-           color='lightsteelblue', label=countyGroupLabels[12],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount'],
-                       df_inc_county[8].loc[:, 'CaseCount'],
-                       df_inc_county[9].loc[:, 'CaseCount'],
-                       df_inc_county[10].loc[:, 'CaseCount'],
-                       df_inc_county[11].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[12].index, df_inc_state[12].loc[:, 'CaseCount'],
+           color='lightsteelblue', label=state_group_labels[12],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount'],
+                       df_inc_state[8].loc[:, 'CaseCount'],
+                       df_inc_state[9].loc[:, 'CaseCount'],
+                       df_inc_state[10].loc[:, 'CaseCount'],
+                       df_inc_state[11].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[13].index, df_inc_county[13].loc[:, 'CaseCount'],
-           color='navy', label=countyGroupLabels[13],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount'],
-                       df_inc_county[8].loc[:, 'CaseCount'],
-                       df_inc_county[9].loc[:, 'CaseCount'],
-                       df_inc_county[10].loc[:, 'CaseCount'],
-                       df_inc_county[11].loc[:, 'CaseCount'],
-                       df_inc_county[12].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[13].index, df_inc_state[13].loc[:, 'CaseCount'],
+           color='navy', label=state_group_labels[13],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount'],
+                       df_inc_state[8].loc[:, 'CaseCount'],
+                       df_inc_state[9].loc[:, 'CaseCount'],
+                       df_inc_state[10].loc[:, 'CaseCount'],
+                       df_inc_state[11].loc[:, 'CaseCount'],
+                       df_inc_state[12].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[14].index, df_inc_county[14].loc[:, 'CaseCount'],
-           color='mediumslateblue', label=countyGroupLabels[14],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount'],
-                       df_inc_county[8].loc[:, 'CaseCount'],
-                       df_inc_county[9].loc[:, 'CaseCount'],
-                       df_inc_county[10].loc[:, 'CaseCount'],
-                       df_inc_county[11].loc[:, 'CaseCount'],
-                       df_inc_county[12].loc[:, 'CaseCount'],
-                       df_inc_county[13].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[14].index, df_inc_state[14].loc[:, 'CaseCount'],
+           color='mediumslateblue', label=state_group_labels[14],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount'],
+                       df_inc_state[8].loc[:, 'CaseCount'],
+                       df_inc_state[9].loc[:, 'CaseCount'],
+                       df_inc_state[10].loc[:, 'CaseCount'],
+                       df_inc_state[11].loc[:, 'CaseCount'],
+                       df_inc_state[12].loc[:, 'CaseCount'],
+                       df_inc_state[13].loc[:, 'CaseCount']])
            )
-    ax.bar(df_inc_county[15].index, df_inc_county[15].loc[:, 'CaseCount'],
-           color='blueviolet', label=countyGroupLabels[15],
-           bottom=sum([df_inc_county[0].loc[:, 'CaseCount'],
-                       df_inc_county[1].loc[:, 'CaseCount'],
-                       df_inc_county[2].loc[:, 'CaseCount'],
-                       df_inc_county[3].loc[:, 'CaseCount'],
-                       df_inc_county[4].loc[:, 'CaseCount'],
-                       df_inc_county[5].loc[:, 'CaseCount'],
-                       df_inc_county[6].loc[:, 'CaseCount'],
-                       df_inc_county[7].loc[:, 'CaseCount'],
-                       df_inc_county[8].loc[:, 'CaseCount'],
-                       df_inc_county[9].loc[:, 'CaseCount'],
-                       df_inc_county[10].loc[:, 'CaseCount'],
-                       df_inc_county[11].loc[:, 'CaseCount'],
-                       df_inc_county[12].loc[:, 'CaseCount'],
-                       df_inc_county[13].loc[:, 'CaseCount'],
-                       df_inc_county[14].loc[:, 'CaseCount']])
+    ax.bar(df_inc_state[15].index, df_inc_state[15].loc[:, 'CaseCount'],
+           color='blueviolet', label=state_group_labels[15],
+           bottom=sum([df_inc_state[0].loc[:, 'CaseCount'],
+                       df_inc_state[1].loc[:, 'CaseCount'],
+                       df_inc_state[2].loc[:, 'CaseCount'],
+                       df_inc_state[3].loc[:, 'CaseCount'],
+                       df_inc_state[4].loc[:, 'CaseCount'],
+                       df_inc_state[5].loc[:, 'CaseCount'],
+                       df_inc_state[6].loc[:, 'CaseCount'],
+                       df_inc_state[7].loc[:, 'CaseCount'],
+                       df_inc_state[8].loc[:, 'CaseCount'],
+                       df_inc_state[9].loc[:, 'CaseCount'],
+                       df_inc_state[10].loc[:, 'CaseCount'],
+                       df_inc_state[11].loc[:, 'CaseCount'],
+                       df_inc_state[12].loc[:, 'CaseCount'],
+                       df_inc_state[13].loc[:, 'CaseCount'],
+                       df_inc_state[14].loc[:, 'CaseCount']])
            )
     ax.legend()
 
@@ -261,5 +265,5 @@ def plot_incidence_var_county():
 # plot_incidence_total()
 # plot_incidence_var_age()
 # plot_incidence_var_sex()
-plot_incidence_var_county()
-plt.show()
+# plot_incidence_var_state()
+# plt.show()

@@ -54,7 +54,7 @@ def load_data():
                               'IdLandkreis', 'NeuGenesen', 'Altersgruppe2', 'ReportDate'])
 
     # Rename columns to english
-    data.rename(columns={"Bundesland": "County", "Altersgruppe": "AgeGroup", "Geschlecht": "Sex",
+    data.rename(columns={"Bundesland": "State", "Altersgruppe": "AgeGroup", "Geschlecht": "Sex",
                          "AnzahlFall": "CaseCount", "AnzahlTodesfall": "DeathcaseCount", "EWZ": "Population"},
                 inplace=True)
 
@@ -84,26 +84,26 @@ def data_by_agegroup(data):
     return data[["AgeGroup", "CaseCount", "DeathcaseCount"]]
 
 
-def data_by_county(data):
+def data_by_state(data):
     """
     Get the relevant columns to further inspect the covid numbers in relation to the counties
     :param data: the dataframe to work on - should be the one returned by load_data
     :return: County, CaseCount, DeathcaseCount and Population from data
     """
 
-    return data[["County", "CaseCount", "DeathcaseCount", "Population"]]
+    return data[["State", "CaseCount", "DeathcaseCount", "Population"]]
 
 
-def counties(data):
+def states(data):
     """
     Get all counties
     :return: a numpy array of all counties
     """
 
-    return data["County"].unique()
+    return data["State"].unique()
 
 
-def county_population(data):
+def state_population(data):
     """
         Get all counties and their population
         :return: a dataframe of all counties and the population
@@ -113,20 +113,16 @@ def county_population(data):
     path_counties = path + "/data/RKI_Corona_Landkreise.csv"
     county_list = pd.read_csv(path_counties, index_col=0)
 
-    states = counties(data)
-
-    # data = data.drop_duplicates(subset=["County"])
-    data = data.reset_index()
-    data = data[["County", "Population"]]
+    state_df = states(data)
 
     pop_sum_list = []
 
     # Calculate state population by adding population of all counties in that state
-    for state in states:
+    for state in state_df:
         pop_sum = 0
         all_entries_for_state = county_list.loc[county_list["BL"] == state]
         for entry in all_entries_for_state["EWZ"]:
             pop_sum += entry
         pop_sum_list.append(pop_sum)
 
-    return pd.DataFrame(data=pop_sum_list, index=states, columns=["Population"])
+    return pd.DataFrame(data=pop_sum_list, index=state_df, columns=["Population"])

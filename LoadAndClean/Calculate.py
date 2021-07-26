@@ -12,6 +12,7 @@ def calc_cases_sex(data):
 
     return data_by_sex(data).groupby("Sex").sum()
 
+
 def calc_cases_agegroup(data):
     """
     Calculate the total of all cases and deaths, by age group
@@ -22,14 +23,14 @@ def calc_cases_agegroup(data):
     return data_by_agegroup(data).groupby("AgeGroup").sum()
 
 
-def calc_cases_county(data):
+def calc_cases_states(data):
     """
-    Calculate the total of all cases and deaths, by county
+    Calculate the total of all cases and deaths, by state
     :param data: the dataframe to work on - should be the one returned by load_data
-    :return: the total number of cases grouped by county
+    :return: the total number of cases grouped by state
     """
 
-    return data_by_county(data).groupby("County").sum().drop(columns=["Population"])
+    return data_by_state(data).groupby("State").sum().drop(columns=["Population"])
 
 
 def standardize_df_length(data, return_data):
@@ -85,14 +86,12 @@ def calc_incidence_total(data):
     :return: a dataframe with the incidence values for each day
     """
 
-    # calculate population and then compute incidence
-    population = 0
-    for county in county_population(data).iterrows():
-        population += county[1]["Population"]
-
+    # german population is a standard constant
+    # We could also calculate it, but the standard-constant way is how it is done by RKI as well
+    population = 83020000
     incidence_factor = population / 100000
 
-    data = data.drop(columns=["County", "AgeGroup", "Sex", "Population"])
+    data = data.drop(columns=["State", "AgeGroup", "Sex", "Population"])
 
     data = compute_incidence(data, incidence_factor)
 
@@ -106,7 +105,7 @@ def calc_incidence_sex(data):
     :return: three dataframes with the incidence values for each day, for Male, Female and Unknown
     """
 
-    data = data.drop(columns=["County", "AgeGroup", "Population"])
+    data = data.drop(columns=["State", "AgeGroup", "Population"])
 
     data_male = data[data['Sex'] == "M"]
     data_female = data[data['Sex'] == "W"]
@@ -130,7 +129,7 @@ def calc_incidence_agegroup(data):
     0-4, 5-14, 15-34, 35-59, 60-79, 80+ and unknown
     """
 
-    data = data.drop(columns=["County", "Sex", "Population"])
+    data = data.drop(columns=["State", "Sex", "Population"])
 
     return_data = [data[data['AgeGroup'] == "A00-A04"], data[data['AgeGroup'] == "A05-A14"],
                    data[data['AgeGroup'] == "A15-A34"], data[data['AgeGroup'] == "A35-A59"],
@@ -159,35 +158,31 @@ def calc_incidence_agegroup(data):
     return tuple(return_data)
 
 
-def calc_incidence_county(data):
+def calc_incidence_state(data):
     """
-    Calculates the 7-day incidence values, grouped by age group, for cases and deaths
+    Calculates the 7-day incidence values, grouped by state, for cases and deaths
     :param data: the dataframe to work on - should be the one returned by load_data
-    :return: dataframes with the incidence values for each day, one for each county
+    :return: dataframes with the incidence values for each day, one for each state
     """
 
-    county_population_list = county_population(data)
+    state_population_list = state_population(data)
 
     data = data.drop(columns=["AgeGroup", "Sex", "Population"])
 
     return_data = []
 
-    county_list = counties(data)
+    state_list = states(data)
 
     # Add all counties to the return_data
-    for county in county_list:
-        return_data.append(data[data['County'] == county])
+    for state in state_list:
+        return_data.append(data[data['State'] == state])
 
     # For each county, get the population and then compute incidence
     for i in range(0, len(return_data)):
-        county = county_list[i]
-        pop = county_population_list.loc[county]["Population"]
+        state = state_list[i]
+        pop = state_population_list.loc[state]["Population"]
         return_data[i] = compute_incidence(return_data[i], pop/100000)
 
     return_data = standardize_df_length(data, return_data)
 
     return tuple(return_data)
-
-
-# df = load_data()
-# calc_incidence_county(df)
