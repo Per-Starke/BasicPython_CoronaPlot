@@ -1,12 +1,11 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-from loadAndClean.Calculate import *
+from LoadAndClean.Calculate import *
 
 
 # Import the data via the load_data() function
 df = load_data()
-
 
 def plot_incidence_total():
     """
@@ -67,7 +66,7 @@ def plot_incidence_var_sex():
     df_inc_sex = calc_incidence_sex(df)  # saves all
     sexfig = plt.figure()
     ax = sexfig.add_subplot(111)
-    sexfig.suptitle('7-Day Corona Incidence per Age-Group')
+    sexfig.suptitle('7-Day Corona Incidence per Sex')
     ax.bar(df_inc_sex[0].index, df_inc_sex[0].loc[:, 'CaseCount'], color='blue', label=sexGroupLabels[0])
     ax.bar(df_inc_sex[1].index, df_inc_sex[1].loc[:, 'CaseCount'], color='red', label=sexGroupLabels[1],
            bottom=df_inc_sex[0].loc[:, 'CaseCount'])
@@ -85,12 +84,9 @@ def plot_incidence_var_state():
     # Preparatory Information
     state_group_labels = states(df)
     df_inc_state = calc_incidence_state(df)  # saves all
-    print(len(df_inc_state))
-    print(len(state_group_labels))
-    print(state_group_labels)
     statefig = plt.figure()
     ax = statefig.add_subplot(111)
-    statefig.suptitle('7-Day Corona Incidence per Age-Group')
+    statefig.suptitle('7-Day Corona Incidence per State')
     ax.bar(df_inc_state[0].index, df_inc_state[0].loc[:, 'CaseCount'],
            color='black', label=state_group_labels[0])
     ax.bar(df_inc_state[1].index, df_inc_state[1].loc[:, 'CaseCount'],
@@ -258,9 +254,6 @@ def plot_incidence_var_state():
                        df_inc_state[14].loc[:, 'CaseCount']])
            )
     ax.legend()
-
-
-# stacked bars to put death count into the plots
 
 # plot_incidence_total()
 # plot_incidence_var_age()
