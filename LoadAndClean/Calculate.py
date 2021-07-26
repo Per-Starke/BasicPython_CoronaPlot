@@ -114,7 +114,7 @@ def calc_incidence_sex(data):
     # We can not get the amount of males/females/unknowns from the given data, so we use standard constants here!
     return_data = [compute_incidence(data_male, 41040000/100000),
                    compute_incidence(data_female, 42000000/100000),
-                   compute_incidence(data_unknown, len(data_unknown)*7/100000)]
+                   compute_incidence(data_unknown, len(data_unknown)*25/100000)]
 
     return_data = standardize_df_length(data, return_data)
 
