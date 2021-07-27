@@ -1,3 +1,5 @@
 .idea
 data/RKI_COVID19.csv
 data/RKI_Corona_Landkreise.csv
+Visualization/__pycache__
+LoadAndClean/__pycache__
