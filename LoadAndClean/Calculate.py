@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from loadAndClean.LoadData import *
+from LoadAndClean.LoadData import *
 
 
 def calc_cases_sex(data):
