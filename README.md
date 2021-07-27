@@ -20,6 +20,4 @@ Yes? Great. You have found the perfect Basic Python Final Project to satisfy you
    Next up, store this folder in the GitHub-project "BasicPython_CoronaPlot" alongside the folders "documentation",
    "LoadAndClean", "main", and "Visualization", so that you now have 5 folders in your project.
    
-5. Now that you are finished with setting up the data, you can open "Main.py" in the folder "main". 
-   However, you may need to install some modules first to run the main, for example the "visualization" module. 
-   This is easily done by typing "pip install visualization" into your prompt.
+5. Now that you are finished with setting up the data, you can open "Main.py" in the folder "main" and run it. 
