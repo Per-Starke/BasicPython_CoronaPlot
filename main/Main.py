@@ -31,3 +31,7 @@ while repeat:
                     "'4' for 'Incidence per state'\n")
 
 plt.show()
+
+
+
+

@@ -1,6 +1,6 @@
 Hello lovely tutors,
 
-if you follow the steps in this ReadMe, nothing will go wrong. But if not, we cannot rule out anything, 
+If you follow the steps in this ReadMe, nothing will go wrong. But if not, we cannot rule out anything, 
 not even a fourth Covid-19 wave.
 Speaking of Covid-19, have you ever wondered how the RKI comes up with its beautiful plots and diagrams? 
 
@@ -18,9 +18,10 @@ Yes? Great. You have found the perfect Basic Python Final Project to satisfy you
    
 4. Download the two csv files (RKI_Corona_Landkreise & RKI_COVID19) and unpack them into a folder with the name "data".
    Next up, store this folder in the GitHub-project "BasicPython_CoronaPlot" alongside the folders "documentation",
-   "LoadAndClean", "main", and "Visualization", so that you now have 5 folders in your project.
+   "loadAndClean", "main", and "visualization".
    
-5. Now that you are finished with setting up the data, you can open "main.py" in the folder "main" and run it.
-   However, make sure that you have installed the following packages in your Python IDE: pandas, matplotlib, numpy
+5. Now that you are finished with setting up the data, you can open the folder "main" and in it, the file "main.py".
+   Open "main.py" in your preferred IDE. Before running it, however, make sure that you have installed the following 
+   packages in your Python Interpreter: 'pandas', 'matplotlib', 'numpy'
    
 Have fun exploring the data!
