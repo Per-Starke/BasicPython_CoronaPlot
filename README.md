@@ -25,3 +25,5 @@ Yes? Great. You have found the perfect Basic Python Final Project to satisfy you
    packages in your Python Interpreter: 'pandas', 'matplotlib', 'numpy'.
    
 Have fun exploring the data!
+
+Everything else can be found in the folder "documentation".
