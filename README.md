@@ -20,7 +20,7 @@ Yes? Great. You have found the perfect Basic Python Final Project to satisfy you
    Next up, store this folder in the GitHub-project "BasicPython_CoronaPlot" alongside the folders "documentation",
    "loadAndClean", "main", and "visualization".
    
-5. Now that you are finished with setting up the data, you can open the folder "main" and in it, the file "main.py".
+5. Now that you are finished with setting up the data, you can open the folder "main".
    Open "main.py" in your preferred IDE. Before running it, however, make sure that you have installed the following 
    packages in your Python Interpreter: 'pandas', 'matplotlib', 'numpy'
    
