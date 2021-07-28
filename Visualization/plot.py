@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-from LoadAndClean.Calculate import *
+from loadAndClean.Calculate import *
 
 
 # Import the data via the load_data() function
