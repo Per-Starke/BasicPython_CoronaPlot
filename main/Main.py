@@ -4,7 +4,7 @@ val = input("What plot do you want to see? Type in the corresponding number and 
             "until the plot shows up!\n"
             "'1' for 'Total incidence',\n"
             "'2' for 'Incidence per age group',\n"
-            "'3' for 'Incidende per sex',\n"
+            "'3' for 'Incidence per sex',\n"
             "'4' for 'Incidence per state'\n")
 
 repeat = True
@@ -27,7 +27,13 @@ while repeat:
         val = input("What plot do you want to see? Type\n"
                     "'1' for 'Total incidence',\n"
                     "'2' for 'Incidence per age group',\n"
-                    "'3' for 'Incidende per sex',\n"
+                    "'3' for 'Incidence per sex',\n"
                     "'4' for 'Incidence per state'\n")
 
 plt.show()
+
+
+
+
+
+
