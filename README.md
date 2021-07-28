@@ -8,7 +8,7 @@ No? Well, then get outta here!
 
 Yes? Great. You have found the perfect Basic Python Final Project to satisfy your curiosity.
 
-1. To start of our exploration, clone this repository on your local computer.
+1. To start of your exploration, clone this repository on your local computer.
 
 2. Open the editor, so that you see the Gib-Hub project "BasicPython_CoronaPlot" on your local computer.
 
