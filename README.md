@@ -22,6 +22,6 @@ Yes? Great. You have found the perfect Basic Python Final Project to satisfy you
    
 5. Now that you are finished with setting up the data, you can open the folder "main".
    Open "main.py" in your preferred IDE. Before running it, however, make sure that you have installed the following 
-   packages in your Python Interpreter: 'pandas', 'matplotlib', 'numpy'
+   packages in your Python Interpreter: 'pandas', 'matplotlib', 'numpy'.
    
 Have fun exploring the data!
