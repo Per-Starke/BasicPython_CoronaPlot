@@ -1,11 +1,9 @@
-import pandas as pd
-import numpy as np
 from matplotlib import pyplot as plt
 from loadAndClean.Calculate import *
 
-
 # Import the data via the load_data() function
 df = load_data()
+
 
 def plot_incidence_total():
     """
@@ -60,11 +58,6 @@ def plot_incidence_var_age():
     ax.plot(df_inc_age[5].index, df_inc_age[5].loc[:, 'DeathcaseCount'], color='blueviolet',
             linestyle='--', label='Deaths ' + ageGroupLabels[5])
 
-
-
-
-
-
     ax.set(xlabel='Day', ylabel='Line: 7-Day Incidence | Dashed: Death Count per 100k')
     ax.legend()
 
@@ -91,11 +84,11 @@ def plot_incidence_var_sex():
             alpha=0.5, label=sexGroupLabels[2])
     # Death Dashed Line Plots
     ax.plot(df_inc_sex[0].index, df_inc_sex[0].loc[:, 'DeathcaseCount'], color='blue',
-           linestyle='--', label='Deaths ' + sexGroupLabels[0])
+            linestyle='--', label='Deaths ' + sexGroupLabels[0])
     ax.plot(df_inc_sex[1].index, df_inc_sex[1].loc[:, 'DeathcaseCount'], color='red',
-           linestyle='--', label='Deaths ' + sexGroupLabels[1])
+            linestyle='--', label='Deaths ' + sexGroupLabels[1])
     ax.plot(df_inc_sex[2].index, df_inc_sex[2].loc[:, 'DeathcaseCount'], color='green',
-           linestyle='--', label='Deaths ' + sexGroupLabels[2])
+            linestyle='--', label='Deaths ' + sexGroupLabels[2])
 
     ax.set(xlabel='Day', ylabel='Line: 7-Day Incidence | Dashed: Death Count per 100k')
     ax.legend()
@@ -114,37 +107,37 @@ def plot_incidence_var_state():
     statefig.suptitle('7-Day Corona Incidence & Deaths per State')
     # Incidence Line Plots
     ax.plot(df_inc_state[0].index, df_inc_state[0].loc[:, 'CaseCount'],
-           color='black', alpha=0.5, label=stateGroupLabels[0])
+            color='black', alpha=0.5, label=stateGroupLabels[0])
     ax.plot(df_inc_state[1].index, df_inc_state[1].loc[:, 'CaseCount'],
-           color='grey', alpha=0.5, label=stateGroupLabels[1])
+            color='grey', alpha=0.5, label=stateGroupLabels[1])
     ax.plot(df_inc_state[2].index, df_inc_state[2].loc[:, 'CaseCount'],
-           color='red', alpha=0.5, label=stateGroupLabels[2])
+            color='red', alpha=0.5, label=stateGroupLabels[2])
     ax.plot(df_inc_state[3].index, df_inc_state[3].loc[:, 'CaseCount'],
-           color='chocolate', alpha=0.5, label=stateGroupLabels[3])
+            color='chocolate', alpha=0.5, label=stateGroupLabels[3])
     ax.plot(df_inc_state[4].index, df_inc_state[4].loc[:, 'CaseCount'],
-           color='orange', alpha=0.5, label=stateGroupLabels[4])
+            color='orange', alpha=0.5, label=stateGroupLabels[4])
     ax.plot(df_inc_state[5].index, df_inc_state[5].loc[:, 'CaseCount'],
-           color='yellow', alpha=0.5, label=stateGroupLabels[5])
+            color='yellow', alpha=0.5, label=stateGroupLabels[5])
     ax.plot(df_inc_state[6].index, df_inc_state[6].loc[:, 'CaseCount'],
-           color='greenyellow', alpha=0.5, label=stateGroupLabels[6])
+            color='greenyellow', alpha=0.5, label=stateGroupLabels[6])
     ax.plot(df_inc_state[7].index, df_inc_state[7].loc[:, 'CaseCount'],
-           color='lime', alpha=0.5, label=stateGroupLabels[7])
+            color='lime', alpha=0.5, label=stateGroupLabels[7])
     ax.plot(df_inc_state[8].index, df_inc_state[8].loc[:, 'CaseCount'],
-           color='aquamarine', alpha=0.5, label=stateGroupLabels[8])
+            color='aquamarine', alpha=0.5, label=stateGroupLabels[8])
     ax.plot(df_inc_state[9].index, df_inc_state[9].loc[:, 'CaseCount'],
-           color='cyan', alpha=0.5, label=stateGroupLabels[9])
+            color='cyan', alpha=0.5, label=stateGroupLabels[9])
     ax.plot(df_inc_state[10].index, df_inc_state[10].loc[:, 'CaseCount'],
-           color='skyblue', alpha=0.5, label=stateGroupLabels[10])
+            color='skyblue', alpha=0.5, label=stateGroupLabels[10])
     ax.plot(df_inc_state[11].index, df_inc_state[11].loc[:, 'CaseCount'],
-           color='dodgerblue', alpha=0.5, label=stateGroupLabels[11])
+            color='dodgerblue', alpha=0.5, label=stateGroupLabels[11])
     ax.plot(df_inc_state[12].index, df_inc_state[12].loc[:, 'CaseCount'],
-           color='lightsteelblue', alpha=0.5, label=stateGroupLabels[12])
+            color='lightsteelblue', alpha=0.5, label=stateGroupLabels[12])
     ax.plot(df_inc_state[13].index, df_inc_state[13].loc[:, 'CaseCount'],
-           color='navy', alpha=0.5, label=stateGroupLabels[13])
+            color='navy', alpha=0.5, label=stateGroupLabels[13])
     ax.plot(df_inc_state[14].index, df_inc_state[14].loc[:, 'CaseCount'],
-           color='mediumslateblue', alpha=0.5, label=stateGroupLabels[14])
+            color='mediumslateblue', alpha=0.5, label=stateGroupLabels[14])
     ax.plot(df_inc_state[15].index, df_inc_state[15].loc[:, 'CaseCount'],
-           color='blueviolet', alpha=0.5, label=stateGroupLabels[15])
+            color='blueviolet', alpha=0.5, label=stateGroupLabels[15])
     # Death Dashed Line Plots
     ax.plot(df_inc_state[0].index, df_inc_state[0].loc[:, 'DeathcaseCount'],
             color='black', linestyle='--', label='Deaths ' + stateGroupLabels[0])
@@ -179,12 +172,5 @@ def plot_incidence_var_state():
     ax.plot(df_inc_state[15].index, df_inc_state[15].loc[:, 'DeathcaseCount'],
             color='blueviolet', linestyle='--', label='Deaths ' + stateGroupLabels[15])
 
-
     ax.set(xlabel='Day', ylabel='Line: 7-Day Incidence | Dashed: Death Count per 100k')
     ax.legend()
-
-plot_incidence_total()
-plot_incidence_var_age()
-plot_incidence_var_sex()
-plot_incidence_var_state()
-plt.show()
