@@ -1,3 +1,4 @@
+"""Run this little main to see some badass plots!"""
 from visualization.plot import *
 
 val = input("What plot do you want to see? Type in the corresponding number and hit return, then wait "
@@ -31,6 +32,7 @@ while repeat:
                     "'4' for 'Incidence per state'\n")
 
 plt.show()
+
 
 
 
