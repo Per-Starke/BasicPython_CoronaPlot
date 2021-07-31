@@ -14,7 +14,7 @@ def load_data():
     """
     Loads the relevant data from the .csv files
     :return: the data as a pandas dataframe, containing:
-    County, AgeGroup, Sex, CaseCount, DeathcaseCount and Population
+    State, AgeGroup, Sex, CaseCount, DeathcaseCount and Population
     """
 
     # Store the path to the data files

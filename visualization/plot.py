@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+
 from loadAndClean.Calculate import *
 
 # Import the data via the load_data() function
@@ -73,7 +74,6 @@ def plot_incidence_var_sex():
     sexfig = plt.figure()
     ax = sexfig.add_subplot(111)
     sexfig.suptitle('7-Day Corona Incidence & Deaths per Sex')
-    barwidth = 0.3
 
     # Incidence Line Plots
     ax.plot(df_inc_sex[0].index, df_inc_sex[0].loc[:, 'CaseCount'], color='blue',

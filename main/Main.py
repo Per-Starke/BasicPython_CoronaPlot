@@ -1,12 +1,15 @@
 """Run this little main to see some badass plots!"""
 from visualization.plot import *
 
-val = input("What plot do you want to see? Type in the corresponding number and hit return, then wait "
-            "until the plot shows up!\n"
-            "'1' for 'Total incidence',\n"
-            "'2' for 'Incidence per age group',\n"
-            "'3' for 'Incidence per sex',\n"
-            "'4' for 'Incidence per state'\n")
+question = """What plot do you want to see? Type in the corresponding number and hit return, then wait
+until the plot shows up!
+'1' for 'Total incidence',
+'2' for 'Incidence per age group',
+'3' for 'Incidence per sex',
+'4' for 'Incidence per state'\n"""
+
+
+val = input(question)
 
 repeat = True
 
@@ -25,11 +28,7 @@ while repeat:
         repeat = False
     else:
         print("No valid input! ")
-        val = input("What plot do you want to see? Type\n"
-                    "'1' for 'Total incidence',\n"
-                    "'2' for 'Incidence per age group',\n"
-                    "'3' for 'Incidence per sex',\n"
-                    "'4' for 'Incidence per state'\n")
+        val = input(question)
 
 plt.show()
 
