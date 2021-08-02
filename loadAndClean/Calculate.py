@@ -3,7 +3,7 @@ from copy import deepcopy
 from loadAndClean.LoadData import *
 
 
-def calc_cases_sex(data):
+def sum_up_cases_by_sex(data):
     """
     Calculate the total of all cases and deaths, by sex
     :param data: the dataframe to work on - should be the one returned by load_data
@@ -13,7 +13,7 @@ def calc_cases_sex(data):
     return data_by_sex(data).groupby("Sex").sum()
 
 
-def calc_cases_agegroup(data):
+def sum_up_cases_per_agegroup(data):
     """
     Calculate the total of all cases and deaths, by age group
     :param data: the dataframe to work on - should be the one returned by load_data
@@ -23,7 +23,7 @@ def calc_cases_agegroup(data):
     return data_by_agegroup(data).groupby("AgeGroup").sum()
 
 
-def calc_cases_states(data):
+def sum_up_cases_per_state(data):
     """
     Calculate the total of all cases and deaths, by state
     :param data: the dataframe to work on - should be the one returned by load_data
@@ -50,7 +50,7 @@ def standardize_df_length(data, return_data):
     return return_data
 
 
-def compute_incidence(data, incidence_factor):
+def compute_incidence_by_factor(data, incidence_factor):
     """
     Helper-function
     Sum over all values submitted in one day, then compute 7-day window
@@ -69,11 +69,12 @@ def compute_incidence(data, incidence_factor):
 
     # Subtract the values of the 7-day-window before this one, for each day respectively
     for i in range(len(data)):
+        # Day zero
         if i == 0:
             return_data.iloc[i]["CaseCount"] = 0
             return_data.iloc[i]["DeathcaseCount"] = 0
         else:
-            return_data.iloc[i]["CaseCount"] = data.iloc[i]["CaseCount"] - data.iloc[i-1]["CaseCount"]
+            return_data.iloc[i]["CaseCount"] = data.iloc[i]["CaseCount"] - data.iloc[i - 1]["CaseCount"]
             return_data.iloc[i]["DeathcaseCount"] = data.iloc[i]["DeathcaseCount"] - data.iloc[i - 1]["DeathcaseCount"]
 
     return return_data
@@ -93,7 +94,7 @@ def calc_incidence_total(data):
 
     data = data.drop(columns=["State", "AgeGroup", "Sex", "Population"])
 
-    data = compute_incidence(data, incidence_factor)
+    data = compute_incidence_by_factor(data, incidence_factor)
 
     return data
 
@@ -112,9 +113,9 @@ def calc_incidence_sex(data):
     data_unknown = data[data['Sex'] == "unknown"]
 
     # We can not get the amount of males/females/unknowns from the given data, so we use standard constants here!
-    return_data = [compute_incidence(data_male, 41040000/100000),
-                   compute_incidence(data_female, 42000000/100000),
-                   compute_incidence(data_unknown, len(data_unknown)*25/100000)]
+    return_data = [compute_incidence_by_factor(data_male, 41040000 / 100000),
+                   compute_incidence_by_factor(data_female, 42000000 / 100000),
+                   compute_incidence_by_factor(data_unknown, len(data_unknown) * 25 / 100000)]
 
     return_data = standardize_df_length(data, return_data)
 
@@ -137,21 +138,28 @@ def calc_incidence_agegroup(data):
                    data[data['AgeGroup'] == "unknown"]]
 
     # We can not get the amount of people per agegroup from the given data, so we use standard constants here!
-    for i in range(len(return_data)):
-        if i == 0:
-            return_data[i] = compute_incidence(return_data[i], 3157537/100000)
-        elif i == 1:
-            return_data[i] = compute_incidence(return_data[i], 6760000 / 100000)
-        elif i == 2:
-            return_data[i] = compute_incidence(return_data[i], 18200000 / 100000)
-        elif i == 3:
-            return_data[i] = compute_incidence(return_data[i], 27340000 / 100000)
-        elif i == 4:
-            return_data[i] = compute_incidence(return_data[i], 8000000 / 100000)
-        elif i == 5:
-            return_data[i] = compute_incidence(return_data[i], 5915000 / 100000)
-        elif i == 6:
-            return_data[i] = compute_incidence(return_data[i], 10000000 / 100000)
+    for agegroup_classifier in range(len(return_data)):
+        if agegroup_classifier == 0:
+            return_data[agegroup_classifier] = compute_incidence_by_factor(return_data[agegroup_classifier],
+                                                                           3157537 / 100000)
+        elif agegroup_classifier == 1:
+            return_data[agegroup_classifier] = compute_incidence_by_factor(return_data[agegroup_classifier],
+                                                                           6760000 / 100000)
+        elif agegroup_classifier == 2:
+            return_data[agegroup_classifier] = compute_incidence_by_factor(return_data[agegroup_classifier],
+                                                                           18200000 / 100000)
+        elif agegroup_classifier == 3:
+            return_data[agegroup_classifier] = compute_incidence_by_factor(return_data[agegroup_classifier],
+                                                                           27340000 / 100000)
+        elif agegroup_classifier == 4:
+            return_data[agegroup_classifier] = compute_incidence_by_factor(return_data[agegroup_classifier],
+                                                                           8000000 / 100000)
+        elif agegroup_classifier == 5:
+            return_data[agegroup_classifier] = compute_incidence_by_factor(return_data[agegroup_classifier],
+                                                                           5915000 / 100000)
+        elif agegroup_classifier == 6:
+            return_data[agegroup_classifier] = compute_incidence_by_factor(return_data[agegroup_classifier],
+                                                                           10000000 / 100000)
 
     return_data = standardize_df_length(data, return_data)
 
@@ -173,15 +181,15 @@ def calc_incidence_state(data):
 
     state_list = states(data)
 
-    # Add all counties to the return_data
+    # Add all states to the return_data
     for state in state_list:
         return_data.append(data[data['State'] == state])
 
-    # For each county, get the population and then compute incidence
-    for i in range(0, len(return_data)):
-        state = state_list[i]
+    # For each state, get the population and then compute incidence
+    for state_classifier in range(0, len(return_data)):
+        state = state_list[state_classifier]
         pop = state_population_list.loc[state]["Population"]
-        return_data[i] = compute_incidence(return_data[i], pop/100000)
+        return_data[state_classifier] = compute_incidence_by_factor(return_data[state_classifier], pop / 100000)
 
     return_data = standardize_df_length(data, return_data)
 
