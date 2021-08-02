@@ -1,5 +1,5 @@
 """Run this little main to see some badass plots!"""
-from visualization.plot import *
+from visualization.Plot import *
 
 question = """What plot do you want to see? Type in the corresponding number and hit return, then wait
 until the plot shows up!
