@@ -1,3 +1,6 @@
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f34e3499c7174dd39f2661b718a07705)](https://app.codacy.com/gh/Per-Starke/BasicPython_CoronaPlot?utm_source=github.com&utm_medium=referral&utm_content=Per-Starke/BasicPython_CoronaPlot&utm_campaign=Badge_Grade_Settings)
+
 Hello lovely tutors,
 
 If you follow the steps in this ReadMe, nothing will go wrong. But if not, we cannot rule out anything, 
