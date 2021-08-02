@@ -1,3 +1,4 @@
+""" Calculates the actual numbers we want to plot """
 from copy import deepcopy
 
 from loadAndClean.LoadData import *
