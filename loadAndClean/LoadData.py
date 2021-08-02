@@ -96,7 +96,7 @@ def data_by_state(data):
 
 def states(data):
     """
-    Get all counties
+    Get all states
     :return: a numpy array of all counties
     """
 
@@ -105,9 +105,9 @@ def states(data):
 
 def state_population(data):
     """
-        Get all counties and their population
-        :return: a dataframe of all counties and the population
-        """
+    Get all states and their population
+    :return: a dataframe of all counties and the population
+    """
 
     path = sys.path[1]
     path_counties = path + "/data/RKI_Corona_Landkreise.csv"
